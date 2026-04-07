@@ -1,4 +1,4 @@
-package com.valtech.registration_service.model;
+package com.valtech.vehicle_service.model;
 
 public enum VehicleStatus {
     PENDING,

@@ -1,16 +1,12 @@
-package com.valtech.registration_service.service;
+package com.valtech.vehicle_service.service;
 
-import com.valtech.registration_service.entity.Vehicle;
-import com.valtech.registration_service.repository.VehicleRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.valtech.vehicle_service.entity.Vehicle;
+import com.valtech.vehicle_service.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehicleService {
-
-    private static final Logger logger = LoggerFactory.getLogger(VehicleService.class);
 
     @Autowired
     private VehicleRepository vehicleRepository;

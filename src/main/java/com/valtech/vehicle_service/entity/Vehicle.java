@@ -1,7 +1,9 @@
-package com.valtech.registration_service.entity;
+package com.valtech.vehicle_service.entity;
 
-import com.valtech.registration_service.model.VehicleStatus;
+import com.valtech.vehicle_service.model.VehicleStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 
@@ -15,12 +17,14 @@ public class Vehicle {
     @Column(name="owner_name")
     private String ownerName;
 
+    @Size(min=10, max=10, message = "Vehicle number must be fixed length of 10")
     @Column(name="vehicle_number")
     private String vehicleNumber;
 
     @Column(name="vehicle_type")
     private String vehicleType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="status")
     private VehicleStatus status;
 
@@ -30,6 +34,7 @@ public class Vehicle {
     @Column(name="engine_number")
     private String engineNumber;
 
+    @NotNull(message = "Registration date is required")
     @Column(name="registration_date")
     private Instant registrationDate;
 

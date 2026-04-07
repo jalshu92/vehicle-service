@@ -1,13 +1,13 @@
-package com.valtech.registration_service;
+package com.valtech.vehicle_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RegistrationServiceApplication {
+public class VehicleServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RegistrationServiceApplication.class, args);
+		SpringApplication.run(VehicleServiceApplication.class, args);
 	}
 
 }

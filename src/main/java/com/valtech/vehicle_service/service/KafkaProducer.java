@@ -1,6 +1,6 @@
-package com.valtech.registration_service.service;
+package com.valtech.vehicle_service.service;
 
-import com.valtech.registration_service.entity.Vehicle;
+import com.valtech.vehicle_service.entity.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
