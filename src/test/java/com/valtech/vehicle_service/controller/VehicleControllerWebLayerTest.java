@@ -24,6 +24,7 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(VehicleController.class)
@@ -53,6 +54,7 @@ public class VehicleControllerWebLayerTest {
         vehicle.setCreatedAt(Instant.now());
         vehicle.setEngineNumber("E00999");
         vehicle.setOwnerName("John Doe");
+        vehicle.setVehicleType("Porsche");
     }
 
 
@@ -76,12 +78,14 @@ public class VehicleControllerWebLayerTest {
         Assertions.assertEquals(vehicle.getCreatedAt(), result.getCreatedAt());
         Assertions.assertEquals(vehicle.getEngineNumber(), result.getEngineNumber());
         Assertions.assertEquals(vehicle.getOwnerName(), result.getOwnerName());
+        verify(vehicleService).saveVehicle(any(Vehicle.class));
+        verify(kafkaProducer).sendMessage(vehicle);
     }
 
     @Test
-    void testRegisterVehicle_withInvalidVehicleNumber_withNoRegistrationDate_returnError() throws Exception {
+    void testRegisterVehicle_withInvalidVData_returnError() throws Exception {
+        Vehicle vehicle = new Vehicle();
         vehicle.setVehicleNumber("VIN000009");
-        vehicle.setRegistrationDate(null);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/vehicle/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -92,6 +96,9 @@ public class VehicleControllerWebLayerTest {
 
         Assertions.assertTrue(result.containsValue("Vehicle number must be fixed length of 10"));
         Assertions.assertTrue(result.containsValue("Registration date is required"));
+        Assertions.assertTrue(result.containsValue("Owner name is required"));
+        Assertions.assertTrue(result.containsValue("Vehicle type is required"));
+        Assertions.assertTrue(result.containsValue("Engine number is required"));
         Assertions.assertEquals(400, mvcResult.getResponse().getStatus());
     }
 

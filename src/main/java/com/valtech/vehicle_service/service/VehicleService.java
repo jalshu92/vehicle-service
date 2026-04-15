@@ -17,11 +17,14 @@ public class VehicleService {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleService.class);
 
-    @Value("${vehicle.delete.after.days}")
     private long days;
 
-    @Autowired
     private VehicleRepository vehicleRepository;
+
+    public VehicleService(@Value("${vehicle.delete.after.days}") long days, VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+        this.days = days;
+    }
 
     public Vehicle findByVehicleNumber(String vehicleNumber) {
         return vehicleRepository.findByVehicleNumber(vehicleNumber);
@@ -33,8 +36,7 @@ public class VehicleService {
 
     public void deleteOlderVehicles() {
         Instant beforeRegistrationDate = Instant.now().minus(Duration.ofDays(days));
-        Instant beforeCreatedAt = Instant.now().minus(Duration.ofMinutes(30));
-        int rowsDeleted = vehicleRepository.deleteVehiclesBeforeCreatedAtAndBeforeRegistrationDateTime(beforeCreatedAt, beforeRegistrationDate);
+        int rowsDeleted = vehicleRepository.deleteVehiclesRegisteredBefore(beforeRegistrationDate);
         logger.info("Deleted {} vehicles by scheduled job", rowsDeleted);
     }
 }

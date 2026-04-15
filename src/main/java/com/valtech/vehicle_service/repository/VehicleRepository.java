@@ -17,8 +17,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("delete from Vehicle v where v.createdAt <= :createdAt and v.registrationDate <= :registrationDate")
-    int deleteVehiclesBeforeCreatedAtAndBeforeRegistrationDateTime(@Param("createdAt") Instant createdAt, @Param("registrationDate") Instant registrationDate);
-
+    @Query("delete from Vehicle v where v.registrationDate <= :registrationDate")
+    int deleteVehiclesRegisteredBefore(@Param("registrationDate") Instant registrationDate);
 
 }

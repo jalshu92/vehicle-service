@@ -4,6 +4,7 @@ import com.valtech.vehicle_service.entity.Vehicle;
 import com.valtech.vehicle_service.model.VehicleStatus;
 import com.valtech.vehicle_service.repository.VehicleRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,8 +20,13 @@ public class VehicleServiceTest {
     @Mock
     private VehicleRepository vehicleRepository;
 
-    @InjectMocks
+//    @InjectMocks
     private VehicleService vehicleService;
+
+    @BeforeEach
+    void setUp() {
+        vehicleService = new VehicleService(2, vehicleRepository);
+    }
 
     @Test
     void testFindByVehicleNumber() {
@@ -55,4 +61,11 @@ public class VehicleServiceTest {
         Assertions.assertEquals(vehicle, vehicle1);
         Mockito.verify(vehicleRepository).save(Mockito.any(Vehicle.class));
     }
+
+    @Test
+    void testDeleteOlderVehicles() {
+        vehicleService.deleteOlderVehicles();
+        Mockito.verify(vehicleRepository).deleteVehiclesRegisteredBefore(Mockito.any(Instant.class));
+    }
+
 }
